@@ -32,7 +32,7 @@ CREATE TABLE carga (
     digito_verificador_carga    VARCHAR2(1) NOT NULL,
     fecha_nacimiento_carga      DATE NOT NULL,
     afiliados_carga_id          NUMBER NOT NULL,
-    estado_civil_id             NUMBER NOT NULL,
+    estado_civil_id             NUMBER NULL,
     parentesco_id               NUMBER NOT NULL
 );
 
@@ -252,3 +252,27 @@ ALTER TABLE vehiculo ADD CONSTRAINT vehiculo_afiliado_FK FOREIGN KEY (afiliado_v
     REFERENCES afiliados (id_afiliados);
 ALTER TABLE beneficio_transporte ADD CONSTRAINT beneficiotrans_sindicato_FK FOREIGN KEY (sindicato_beneficiotrans_id)
     REFERENCES sindicato (id_sindicato);
+
+--Creacion de DATE
+
+ALTER SESSION SET NLS_DATE_FORMAT= 'DD/MM/YYYY'
+
+--Creacion de INSERT
+
+INSERT INTO estado_de_solicitud VALUES (1,'30/06/2022','ACEPTADA')
+INSERT INTO regiones VALUES (1,'Region Metropolitana')
+INSERT INTO provincias VALUES (1,'Santiago',1)
+INSERT INTO comunas VALUES (1,'San joaquin',1)
+INSERT INTO nacionalidad VALUES (1,'Chile')
+INSERT INTO afiliados VALUES (1,'Jordan','','Navarro','','',20940071,'5','jord.navarro@duocuc.cl','22/12/2001','central oriente 123',1,1,1)
+INSERT INTO parentesco VALUES (1,'Hijo')
+INSERT INTO carga VALUES (1,'Jordancito','','Navarro','',22940071,'k','1/1/2005',1,'',1)
+
+
+
+
+
+
+--Creacion de SELECT
+
+SELECT * FROM afiliados;
