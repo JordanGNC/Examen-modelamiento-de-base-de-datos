@@ -259,28 +259,28 @@ ALTER TABLE beneficio_transporte ADD CONSTRAINT beneficiotrans_sindicato_FK FORE
 
 --Creacion de INSERT
 
-INSERT INTO estado_civil VALUES (1,'Casado')
-INSERT INTO parentesco VALUES (1,'Hijo')
-INSERT INTO nacionalidad VALUES (1,'Chile')
-INSERT INTO estado_de_solicitud VALUES (1,'22/01/2022','ACEPTADA')
-INSERT INTO regiones VALUES (1,'Region Metropolitana')
-INSERT INTO provincias VALUES (1,'Santiago',1)
-INSERT INTO comunas VALUES (1,'San joaquin',1)
-INSERT INTO afiliados VALUES (1,'Jordan','','Navarro','','',20940071,'5','jord.navarro@duocuc.cl','22/12/2001','central oriente 123',1,1,1)
-INSERT INTO carga VALUES (1,'Jordancito','','Navarro','',22940071,'k','1/1/2005',1,'',1)
-INSERT INTO tipos_de_telefonos VALUES (1,'Celular')
-INSERT INTO telefonos VALUES (1,'35378516',1,1)
-INSERT INTO formas_de_pagos VALUES (1,'Transferencia')
-INSERT INTO cheques VALUES (1,'123456789')
-INSERT INTO bancos VALUES (1,'Banco Estado')
-INSERT INTO vehiculo VALUES (1,'Chevrolet','Camaro ss','HDR1234','Amarillo','123456789','987654321',1)
-INSERT INTO empresa VALUES (1,'SINTAC','Yal 123',1)
-INSERT INTO aseguradora_de_vehiculo VALUES (1,'TU VEHICULO EN BUENAS MANOS','Estacion central 123',1)
-INSERT INTO sindicato VALUES (1,'SYAC',1)
-INSERT INTO beneficio_transporte VALUES (1,'Terrestre','30%',1)
-INSERT INTO beneficios VALUES (1,'15%','Vida del deportista','4',1,1)
-INSERT INTO tipo_de_discapacidad VALUES (1,'Epilepsia')
-INSERT INTO discapacidad VALUES (1,'No',1,1)
+INSERT INTO estado_civil VALUES (1,'Casado');
+INSERT INTO parentesco VALUES (1,'Hijo');
+INSERT INTO nacionalidad VALUES (1,'Chile');
+INSERT INTO estado_de_solicitud VALUES (1,'22/01/2022','ACEPTADA');
+INSERT INTO regiones VALUES (1,'Region Metropolitana');
+INSERT INTO provincias VALUES (1,'Santiago',1);
+INSERT INTO comunas VALUES (1,'San joaquin',1);
+INSERT INTO afiliados VALUES (1,'Jordan','','Navarro','','',20940071,'5','jord.navarro@duocuc.cl','22/12/2001','central oriente 123',1,1,1);
+INSERT INTO carga VALUES (1,'Jordancito','','Navarro','',22940071,'k','1/1/2005',1,'',1);
+INSERT INTO tipos_de_telefonos VALUES (1,'Celular');
+INSERT INTO telefonos VALUES (1,'35378516',1,1);
+INSERT INTO formas_de_pagos VALUES (1,'Transferencia');
+INSERT INTO cheques VALUES (1,'123456789');
+INSERT INTO bancos VALUES (1,'Banco Estado');
+INSERT INTO vehiculo VALUES (1,'Chevrolet','Camaro ss','HDR1234','Amarillo','123456789','987654321',1);
+INSERT INTO empresa VALUES (1,'SINTAC','Yal 123',1);
+INSERT INTO aseguradora_de_vehiculo VALUES (1,'TU VEHICULO EN BUENAS MANOS','Estacion central 123',1);
+INSERT INTO sindicato VALUES (1,'SYAC',1);
+INSERT INTO beneficio_transporte VALUES (1,'Terrestre','30%',1);
+INSERT INTO beneficios VALUES (1,'15%','Vida del deportista','4',1,1);
+INSERT INTO tipo_de_discapacidad VALUES (1,'Epilepsia');
+INSERT INTO discapacidad VALUES (1,'No',1,1);
 
 --Creacion de SELECT
 
