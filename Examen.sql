@@ -71,7 +71,7 @@ CREATE TABLE tipos_de_telefonos (
 CREATE TABLE pagos (
     id_pagos                    NUMBER NOT NULL,
     fecha_de_pago               DATE NOT NULL,
-    valor_a_pagar               NUMBER(20) NOT NULL,
+    valor_a_pagar               NUMBER(38) NOT NULL,
     bancos_id                   NUMBER NOT NULL,
     cheques_id                  NUMBER NULL,
     formas_de_pago_id           NUMBER NULL,
@@ -196,7 +196,7 @@ CREATE TABLE discapacidad_afiliado (
 
 CREATE TABLE tipo_de_discapacidad (
     id_tipodediscapacidad       NUMBER NOT NULL,
-    nombre_de_discapacidad      VARCHAR2(250) NOT NULL
+    nombre_de_discapacidad      VARCHAR2(250) NULL
 );
 
 CREATE TABLE tipos_de_pago (
@@ -310,7 +310,8 @@ INSERT INTO colores_de_vehiculos VALUES (2,'Naranja');
 INSERT INTO tipos_de_vehiculos VALUES (1,'Deportivo');
 INSERT INTO tipos_de_vehiculos VALUES (2,'Camioneta');
 INSERT INTO tipos_de_pago VALUES (1,'Cuotas');
-INSERT INTO estado_civil VALUES (1,'Casado');
+INSERT INTO estado_civil VALUES (2,'Casado');
+INSERT INTO estado_civil VALUES (1,'Sin estado civil');
 INSERT INTO parentesco VALUES (1,'Hijo');
 INSERT INTO parentesco VALUES (2,'Conyuge');
 INSERT INTO nacionalidad VALUES (1,'Chile');
@@ -324,8 +325,8 @@ INSERT INTO comunas VALUES (1,'San joaquin',1);
 INSERT INTO comunas VALUES (2,'Rio claro',2);
 INSERT INTO afiliados VALUES (1,'Jordan','','Navarro','','',20940071,'5','jord.navarro@duocuc.cl','22/12/2001','central oriente 123',1,1,1);
 INSERT INTO afiliados VALUES (2,'Jesus','Cristo','Delgado','','64826404','','','Yisus@duocuc.cl','01/01/2004','Su casita 123',2,1,2);
-INSERT INTO carga VALUES (1,'JordanJr','Twentytree','Navarro','',22940071,'k','01/01/2018',1,'',1);
-INSERT INTO carga VALUES (2,'Juanita','','Delgado','',12345678,'0','01/01/2003',2,1,2);
+INSERT INTO carga VALUES (1,'JordanJr','Twentytree','Navarro','',22940071,'k','01/01/2018',1,1,1);
+INSERT INTO carga VALUES (2,'Juanita','','Delgado','',12345678,'0','01/01/2003',2,2,2);
 INSERT INTO tipos_de_telefonos VALUES (1,'Celular');
 INSERT INTO tipos_de_telefonos VALUES (2,'Fijo');
 INSERT INTO telefonos VALUES (1,'35378516',1,1);
@@ -338,18 +339,202 @@ INSERT INTO vehiculo VALUES (1,'HDR1234','123456789','987654321',1,1,1,1);
 INSERT INTO vehiculo VALUES (2,'AWD8596','276527435','987324984',2,2,2,2);
 INSERT INTO empresa VALUES (1,'SINTAC','Yal 123',1);
 INSERT INTO aseguradora_de_vehiculo VALUES (1,'TU VEHICULO EN BUENAS MANOS','Estacion central 123',1);
+INSERT INTO estado_de_vehiculo VALUES (1,'ACEPTADO','50%',1,1);
+INSERT INTO estado_de_vehiculo VALUES (2,'ACEPTADO','60%',1,2);
 INSERT INTO sindicato VALUES (1,'SYAC',1);
 INSERT INTO beneficio_transporte VALUES (1,'Terrestre','30%',1);
 INSERT INTO beneficio_transporte VALUES (2,'Maritimo','23,25%',1);
 INSERT INTO beneficios VALUES (1,'15%','Vida del deportista','4',1,1);
 INSERT INTO beneficios VALUES (2,'50%','Clinica dental Santa Maria','1',2,1);
-INSERT INTO tipo_de_discapacidad VALUES (1,'Esquizofrenia');
-INSERT INTO discapacidad_afiliado VALUES (1,'No',1,'');
-INSERT INTO discapacidad_afiliado VALUES (2,'Si',2,1);
-INSERT INTO pagos VALUES (1,'09/07/2022','6.000',1,1,'',1,1);
-INSERT INTO pagos VALUES (2,'09/06/2022','100.000',2,'',1,2,1);
+INSERT INTO tipo_de_discapacidad VALUES (1,'No tiene discapacidad');
+INSERT INTO tipo_de_discapacidad VALUES (2,'Esquizofrenia');
+INSERT INTO discapacidad_afiliado VALUES (1,'No',1,1);
+INSERT INTO discapacidad_afiliado VALUES (2,'Si',2,2);
+INSERT INTO pagos VALUES (1,'09/07/2022',6000,1,1,'',1,1);
+INSERT INTO pagos VALUES (2,'09/06/2022',100000,2,'',1,2,1);
 
 --Creacion de SELECT
 
+--SELECT con info del afiliado
+SELECT 
+    af.id_afiliados AS "ID",
+    af.primer_nombre AS "Primer nombre",
+    af.segundo_nombre AS "Segundo nombre",
+    af.apellido_paterno AS "Apellido paterno",
+    af.apellido_materno AS "Apellido materno",
+    nac.pais AS "Nacionalidad",
+    af.pasaporte AS "Numero de pasaporte",
+    af.rut AS "Rut",
+    af.digito_verificador AS "DV",
+    af.correo_electronico AS "Correo electronico",
+    af.fecha_nacimiento AS "Fecha de nacimiento",
+    af.direccion AS "Direccion",
+    co.nombre_comuna AS "Comuna",
+    prov.nombre_provincia AS "Provincia",
+    reg.nombre_region AS "Region",
+    tf.numero_de_telefono AS "Numero de telefono",
+    tptf.tipo_de_telefono AS "Tipo de telefono",
+    disaf.discapacitado AS "Discapacitado",
+    tpdis.nombre_de_discapacidad AS "Discapacidad"    
+FROM afiliados af
+    JOIN comunas co ON (af.comunas_id = co.id_comuna)
+    JOIN provincias prov ON (co.provincias_id = prov.id_provincia)
+    JOIN regiones reg ON (prov.regiones_id = reg.id_region)
+    JOIN discapacidad_afiliado disaf ON (disaf.afiliados_id = af.id_afiliados)
+    JOIN tipo_de_discapacidad tpdis ON (disaf.tipo_de_discapacidad_id = tpdis.id_tipodediscapacidad)
+    JOIN telefonos tf ON (tf.afiliados_telefonos_id = af.id_afiliados)
+    JOIN tipos_de_telefonos tptf ON (tf.tipos_de_telefonos_id = tptf.id_tipodetelefono)
+    JOIN nacionalidad nac ON (af.nacionalidad_id = nac.id_nacionalidad);
+
+--SELECT con info de la carga
+
+SELECT 
+    af.id_afiliados AS "ID",
+    af.primer_nombre AS "Representante de la carga",
+    af.rut AS "Rut del representante",    
+    af.digito_verificador AS "DV del representante",
+    af.pasaporte AS "Numero de pasaporte",
+    ca.primer_nombre_carga AS "Primer nombre de la carga",
+    ca.segundo_nombre_carga AS "Segundo nombre de la carga",
+    ca.apellido_paterno_carga AS "Apellido paterno de la carga",
+    ca.apellido_materno_carga AS "Apelido materno de la carga",
+    ca.rut_carga AS "Rut de la carga",
+    ca.digito_verificador_carga AS "DV de la carga",
+    ca.fecha_nacimiento_carga AS "Fecha de nacimiento de la carga",
+    par.parentesco_con_la_carga AS "Parentesco",
+    estciv.acuerdo_civil AS "Estado civil"
+FROM afiliados af
+    JOIN carga ca ON (ca.afiliados_carga_id = af.id_afiliados)  
+    JOIN parentesco par ON (ca.parentesco_id = par.id_parentesco)
+    JOIN estado_civil estciv ON (ca.estado_civil_id = estciv.id_estadocivil);
+
+--SELECT con info del vehiculo
+  
+SELECT
+    af.id_afiliados AS "ID",
+    af.primer_nombre AS "Dueño del vehiculo",
+    af.rut AS "Rut del dueño",    
+    af.digito_verificador AS "DV del dueño",
+    af.pasaporte AS "Numero de pasaporte del dueño",
+    veh.patente AS "Patente",
+    veh.numero_chasis AS "Numero del chasis",
+    veh.numero_motor AS "Numero del motor",
+    marc.marca_vehiculo AS "Marca del vehiculo",
+    mod.modelo_vehiculo AS "Modelo del vehiculo",
+    color.color_vehiculo AS "Color del vehiculo",
+    tpveh.tipo_vehiculo AS "Tipo de vehiculo"
+FROM afiliados af
+    JOIN vehiculo veh ON (veh.afiliado_vehiculo_id = af.id_afiliados)
+    JOIN modelos_de_vehiculos mod ON (veh.modelosveh_vehiculo_id = mod.id_modelo)
+    JOIN colores_de_vehiculos color ON (veh.coloresveh_vehiculos_id = color.id_color)
+    JOIN tipos_de_vehiculos tpveh ON (veh.tiposveh_vehiculos_id = tpveh.id_tipovehiculo)
+    JOIN marcas_de_vehiculos marc ON (mod.marca_modelo_id = marc.id_marca);
+    
+    
+--SELECT con info del estado del vehiculo
+
+SELECT
+    af.id_afiliados AS "ID",
+    af.primer_nombre AS "Dueño del vehiculo",
+    af.rut AS "Rut del dueño",    
+    af.digito_verificador AS "DV del dueño",
+    af.pasaporte AS "Numero de pasaporte del dueño",
+    veh.patente AS "Patente",
+    aseg.nombre_aseguradora AS "Nombre de la aseguradora",
+    aseg.direccion_aseguradora AS "Direccion de la aseguradora",
+    estveh.estado AS "Estado del vehiculo",
+    estveh.descuento_vehiculo AS "Descuento aplicado al vehiculo"
+
+FROM afiliados af
+    JOIN vehiculo veh ON (veh.afiliado_vehiculo_id = af.id_afiliados)
+    JOIN estado_de_vehiculo estveh ON (estveh.vehiculo_id = veh.id_vehiculo)
+    JOIN aseguradora_de_vehiculo aseg ON (estveh.aseguradora_estado_id = aseg.id_aseguradora);
+    
+--SELECT con info de pagos (Cheque)
+
+SELECT
+    af.id_afiliados AS "ID",
+    af.primer_nombre AS "Nombre del afiliado",
+    af.rut AS "Rut del afiliado",    
+    af.digito_verificador AS "DV del afiliado",
+    af.pasaporte AS "Numero de pasaporte del afiliado",
+    pagos.fecha_de_pago AS "Fecha de pago",
+    pagos.valor_a_pagar AS "Valor a pagar",
+    bank.nombre_banco AS "Banco",
+    cheques.numero_de_cheque AS "Numero de cheque"
+FROM afiliados af
+    JOIN pagos ON (afiliados_pagos_id = af.id_afiliados)
+    JOIN bancos bank ON (pagos.afiliados_pagos_id = bank.id_banco)
+    JOIN cheques ON (cheques_id = id_cheque);
+
+--SELECT con info de pagos (otras formas de pago)
+
+SELECT
+    af.id_afiliados AS "ID",
+    af.primer_nombre AS "Nombre del afiliado",
+    af.rut AS "Rut del afiliado",    
+    af.digito_verificador AS "DV del afiliado",
+    af.pasaporte AS "Numero de pasaporte del afiliado",
+    pagos.fecha_de_pago AS "Fecha de pago",
+    pagos.valor_a_pagar AS "Valor a pagar",
+    bank.nombre_banco AS "Banco",
+    form.forma_de_pago AS "Forma de pago",
+    tppago.tipo_pago AS "Tipo de pago"
+FROM afiliados af
+    JOIN pagos ON (afiliados_pagos_id = af.id_afiliados)
+    JOIN bancos bank ON (pagos.afiliados_pagos_id = bank.id_banco)
+    JOIN formas_de_pagos form ON (formas_de_pago_id = form.id_formasdepago)
+    JOIN tipos_de_pago tppago ON (tipopago_pagos_id = tppago.id_tipopago);
+
+--SELECT con info de beneficios
+
+SELECT
+    ben.id_beneficio AS "ID",
+    ben.descuento_beneficio AS "Descuento",
+    ben.nombre_de_beneficio AS "Nombre del beneficio",
+    ben.cantidad_maxima_de_usos AS "Cantidad maxima de usos",
+    sind.nombre_de_sindicato AS "Nombre del sindicato"
+FROM beneficios ben
+    JOIN sindicato sind ON (sindicato_beneficios_id = id_sindicato);
+    
+--SELECT con info de beneficios de transporte
+
+SELECT 
+    bent.id_beneficiotransporte AS "ID",
+    bent.tipo_de_transporte AS "Tipo de transporte",
+    bent.descuento_transporte AS "Descuento",
+    sind.nombre_de_sindicato AS "Nombre del sindicato"
+FROM beneficio_transporte bent
+    JOIN sindicato sind ON (sindicato_beneficiotrans_id = id_sindicato);
+    
+--SELECT sin uso del JOIN
+
 SELECT * FROM afiliados;
+SELECT * FROM nacionalidad;
 SELECT * FROM carga;
+SELECT * FROM parentesco;
+SELECT * FROM estado_civil;
+SELECT * FROM estado_de_solicitud;
+SELECT * FROM telefonos;
+SELECT * FROM tipos_de_telefonos;
+SELECT * FROM pagos;
+SELECT * FROM formas_de_pagos;
+SELECT * FROM cheques;
+SELECT * FROM bancos;
+SELECT * FROM comunas;
+SELECT * FROM provincias;
+SELECT * FROM regiones;
+SELECT * FROM vehiculo;
+SELECT * FROM colores_de_vehiculos;
+SELECT * FROM marcas_de_vehiculos;
+SELECT * FROM modelos_de_vehiculos;
+SELECT * FROM tipos_de_vehiculos;
+SELECT * FROM estado_de_vehiculo;
+SELECT * FROM aseguradora_de_vehiculo;
+SELECT * FROM empresa;
+SELECT * FROM sindicato;
+SELECT * FROM beneficio_transporte;
+SELECT * FROM beneficios;
+SELECT * FROM discapacidad_afiliado;
+SELECT * FROM tipo_de_discapacidad;
+SELECT * FROM tipos_de_pago;
